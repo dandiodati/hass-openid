@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import re
 from pathlib import Path
 from typing import Any
 
@@ -193,12 +192,6 @@ async def _async_prepare_config(
 
     if CONF_USE_PKCE not in config:
         config[CONF_USE_PKCE] = bool(discovered[DISCOVERY_PKCE_AVAILABLE])
-
-    # compile regex pattern if it exists
-    if CONF_TRUSTED_CLIENT_PATTERN in config:
-        pattern_str = config[CONF_TRUSTED_CLIENT_PATTERN]
-        pattern = re.compile(pattern_str)
-        config[CONF_TRUSTED_CLIENT_PATTERN] = pattern
 
     return config
 

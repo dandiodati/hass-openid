@@ -10,6 +10,7 @@ from http import HTTPStatus
 import json
 import logging
 import secrets
+import re
 from string import Template
 from typing import Any
 from urllib.parse import quote, urlencode
@@ -110,7 +111,9 @@ class OpenIDAuthorizeView(BaseOpenIDAuthorizeView):
 
         trusted_clients = conf.get(CONF_TRUSTED_CLIENT_IDS,[])
 
-        trusted_clients_pattern = conf.get(CONF_TRUSTED_CLIENT_PATTERN, None)
+        trusted_clients_pattern_str = conf.get(CONF_TRUSTED_CLIENT_PATTERN, None)
+        if trusted_clients_pattern_str != None:
+          trusted_clients_pattern = re.compile(trusted_clients_pattern_str) 
 
         if client_id in trusted_clients:
             _LOGGER.debug(
